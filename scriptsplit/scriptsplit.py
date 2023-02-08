@@ -1,7 +1,9 @@
 import re
 import pprint
+import os
 
-script_file = open('megamind.txt', 'r')
+cdir = os.path.dirname(__file__)
+script_file = open(os.path.join(cdir, 'megamind.txt'), 'r')
 script = script_file.read()
 script_file.close()
 
@@ -19,7 +21,12 @@ print(pars[1825])
 for p in pars:
     # Capture the name (anchored to the beginning of line and all capitals)
     # and the rest of the paragraph - (.*)
-    name, txt = re.search(r'^([A-Z]+):(.*)', p, re.S + re.M).group(1, 2) # FIXME: 'NoneType' object has no attribute 'group'
+    regex = re.search(r'^([A-Z]+):(.*)', p, re.S + re.M)
+
+    if not regex:  # Avoid calling group() on null results
+        continue
+
+    name, txt = regex.group(1, 2) # FIXME: 'NoneType' object has no attribute 'group'
                                                                          # I think the regex search is bogged
                                                                          # Will just redo it on my own using the same logic
 

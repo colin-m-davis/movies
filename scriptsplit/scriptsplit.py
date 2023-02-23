@@ -1,5 +1,4 @@
 import re
-import pprint
 import os
 
 cdir = os.path.dirname(__file__)
@@ -19,7 +18,7 @@ d = {}
 for p in pars:
     # Capture the name (anchored to the beginning of line and all capitals)
     # and the rest of the paragraph - (.*)
-    regex = re.search(r'^([A-Z]+)(.*)', p, re.S + re.M)
+    regex = re.search(r'^([A-Z]+ [A-Z]+|[A-Z]+)(.*)', p, re.S + re.M)
 
     if not regex:  # Avoid calling group() on null results
         continue
@@ -32,13 +31,10 @@ for p in pars:
     else:
         d[name] = txt.strip().split('\n')
 
-#pprint.pprint(d)  
-print(d.keys())
+
+print(d.keys()) # Check which names are captured
+print(d['MASTER MIND']) # check that the main character's lines are captured
 
 
-
-# FIXME: this code may not work exactly as intended once regex line is fixed,
-#  since there are parts of the script with no 'speaker' (it's just describing
-#  the scene). Just make sure to test that this is accounted for
 
 # Regex guide: https://www.geeksforgeeks.org/regular-expression-python-examples-set-1/
